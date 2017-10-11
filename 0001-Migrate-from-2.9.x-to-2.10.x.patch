@@ -1,40 +1,3 @@
-From a2077a0bb5ab9da56427bbc38fddc55a54390327 Mon Sep 17 00:00:00 2001
-From: James Sweet <james.sweet88@googlemail.com>
-Date: Mon, 2 Oct 2017 14:18:59 -0400
-Subject: [PATCH] Migrate from 2.9.x to 2.10.x
-
----
- demo/WFS_getFeature-2.0.url                       |   2 +-
- demo/WFS_getFeatureBetween.url                    |   2 +-
- demo/WFS_getFeatureBetweenCQL.url                 |   2 +-
- demo/WFS_getFeatureFid.url                        |   2 +-
- demo/WFS_getFeatureFidFilter.url                  |   2 +-
- demo/WFS_getFeatureMultiFilter.url                |   2 +-
- geofence/geofence-server.properties               |   8 ++---
- geofence/geofence_db/geofence.48.log.db           | Bin 1088 -> 0 bytes
- geofence/geofence_db/geofence.data.db             | Bin 131120 -> 131120 bytes
- global.xml                                        |  19 ++++++------
- gwc-gs.xml                                        |   6 +++-
- logging.xml                                       |   4 +--
- security/config.xml                               |   9 ++++++
- security/filter/geonodeAnonymousFilter/config.xml |   5 ----
- security/filter/geonodeCookieFilter/config.xml    |   5 ----
- security/rest.properties                          |  17 ++++++++++-
- security/version.properties                       |   2 +-
- styles/default_generic.sld                        |   2 +-
- styles/default_line.sld                           |   2 +-
- styles/default_point.sld                          |   2 +-
- styles/default_polygon.sld                        |   2 +-
- styles/generic.xml                                |   6 ++--
- styles/raster.sld                                 |   2 +-
- wcs.xml                                           |   9 +++---
- wms.xml                                           |  34 ++++++++++++++++++----
- wps.xml                                           |  16 ++++++----
- 30 files changed, 106 insertions(+), 70 deletions(-)
- delete mode 100644 geofence/geofence_db/geofence.48.log.db
- delete mode 100644 security/filter/geonodeAnonymousFilter/config.xml
- delete mode 100644 security/filter/geonodeCookieFilter/config.xml
-
 diff --git a/demo/WFS_getFeature-2.0.url b/demo/WFS_getFeature-2.0.url
 index 1412b10..e95e64b 100644
 --- a/demo/WFS_getFeature-2.0.url
@@ -42,52 +5,10 @@ index 1412b10..e95e64b 100644
 @@ -1 +1 @@
 -wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=sf:bugsites&filter=%3Cfes:Filter%20xmlns:fes=%22http://www.opengis.net/fes/2.0%22%3E%3Cfes:Filter%3E%3Cfes:ResourceId%20rid=%22bugsites.3%22/%3E%3C/fes:Filter%3E%3C/fes:Filter%3E
 +wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=sf:bugsites&filter=%3Cfes:Filter%20xmlns:fes=%22http://www.opengis.net/fes/2.0%22%3E%3Cfes:ResourceId%20rid=%22bugsites.3%22/%3E%3C/fes:Filter%3E
-diff --git a/demo/WFS_getFeatureBetween.url b/demo/WFS_getFeatureBetween.url
-index 36ca4ac..135cf55 100644
---- a/demo/WFS_getFeatureBetween.url
-+++ b/demo/WFS_getFeatureBetween.url
-@@ -1 +1 @@
--wfs?request=GetFeature&version=1.1.0&typeName=topp:states&propertyName=STATE_NAME,LAND_KM,the_geom&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CPropertyIsBetween%3E%3CPropertyName%3Etopp:LAND_KM%3C/PropertyName%3E%3CLowerBoundary%3E%3CLiteral%3E100000%3C/Literal%3E%3C/LowerBoundary%3E%3CUpperBoundary%3E%3CLiteral%3E150000%3C/Literal%3E%3C/UpperBoundary%3E%3C/PropertyIsBetween%3E%3C/Filter%3E
-+wfs?request=GetFeature&version=1.1.0&typeName=topp:states&propertyName=STATE_NAME,LAND_KM,the_geom&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CPropertyIsBetween%3E%3CPropertyName%3Etopp:LAND_KM%3C/PropertyName%3E%3CLowerBoundary%3E%3CLiteral%3E100000%3C/Literal%3E%3C/LowerBoundary%3E%3CUpperBoundary%3E%3CLiteral%3E150000%3C/Literal%3E%3C/UpperBoundary%3E%3C/PropertyIsBetween%3E%3C/Filter%3E
-diff --git a/demo/WFS_getFeatureBetweenCQL.url b/demo/WFS_getFeatureBetweenCQL.url
-index 5cb79e4..74bcec3 100644
---- a/demo/WFS_getFeatureBetweenCQL.url
-+++ b/demo/WFS_getFeatureBetweenCQL.url
-@@ -1 +1 @@
--wfs?request=GetFeature&typeName=topp:states&propertyName=STATE_NAME,LAND_KM,the_geom&CQL_FILTER=LAND_KM%20BETWEEN%20100000%20AND%20150000&version=1.0.0
-+wfs?request=GetFeature&typeName=topp:states&propertyName=STATE_NAME,LAND_KM,the_geom&CQL_FILTER=LAND_KM%20BETWEEN%20100000%20AND%20150000&version=1.0.0
-diff --git a/demo/WFS_getFeatureFid.url b/demo/WFS_getFeatureFid.url
-index c66e93d..26293ea 100644
---- a/demo/WFS_getFeatureFid.url
-+++ b/demo/WFS_getFeatureFid.url
-@@ -1 +1 @@
--wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FEATUREID=states.3
-+wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FEATUREID=states.3
-diff --git a/demo/WFS_getFeatureFidFilter.url b/demo/WFS_getFeatureFidFilter.url
-index 087061f..9b491ba 100644
---- a/demo/WFS_getFeatureFidFilter.url
-+++ b/demo/WFS_getFeatureFidFilter.url
-@@ -1 +1 @@
--wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.23%22/%3E%3C/Filter%3E
-+wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.23%22/%3E%3C/Filter%3E
-diff --git a/demo/WFS_getFeatureMultiFilter.url b/demo/WFS_getFeatureMultiFilter.url
-index 9f92eaa..0413779 100644
---- a/demo/WFS_getFeatureMultiFilter.url
-+++ b/demo/WFS_getFeatureMultiFilter.url
-@@ -1 +1 @@
--wfs?request=GetFeature&version=1.1.0&typeName=topp:states,tiger:tiger_roads&outputFormat=GML2&FILTER=(%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.3%22/%3E%3C/Filter%3E)(%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22tiger_roads.3%22/%3E%3C/Filter%3E)
-+wfs?request=GetFeature&version=1.1.0&typeName=topp:states,tiger:tiger_roads&outputFormat=GML2&FILTER=(%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.3%22/%3E%3C/Filter%3E)(%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22tiger_roads.3%22/%3E%3C/Filter%3E)
 diff --git a/geofence/geofence-server.properties b/geofence/geofence-server.properties
 index 0c34409..65b3a5b 100644
 --- a/geofence/geofence-server.properties
 +++ b/geofence/geofence-server.properties
-@@ -1,5 +1,5 @@
- ### GeoFence Module configuration file
--###
-+###
- ### GeoServer will read this file at boot time.
- ### This file may be automatically regenerated by GeoServer, so any changes beside the property values may be lost.
-
 @@ -16,6 +16,6 @@ acceptedRoles=
 
  ### Cache configuration
@@ -98,36 +19,23 @@ index 0c34409..65b3a5b 100644
 +cacheSize=500000
 +cacheRefresh=6000000
 +cacheExpire=6000000
-diff --git a/geofence/geofence_db/geofence.48.log.db b/geofence/geofence_db/geofence.48.log.db
+diff --git a/geofence/geofence_db/.nfs0000000000000df800000001 b/geofence/geofence_db/.nfs0000000000000df800000001
 deleted file mode 100644
-index 721b8c5cfb5c1a12bceeafad3730c22643f716af..0000000000000000000000000000000000000000
-GIT binary patch
-literal 0
-HcmV?d00001
-
-literal 1088
-zcmd^-ze>YU7)QTa7hS3%4kD647csFE1aY#_LUnNPA0i?hR8&Nyk0%bkiN1jk&>@}^
-z;~<uTgOi2x9qvtY`TfF8)1=!<n%VkVo}_6q2_x4L(JZQ8L?^b`7=!UEM#B+~`UB&3
-z`=EoS4jJEmJFMP#CyHvj7<lAsdG32L7!*&9@=2|F{)d_#a(256@{3WOag5tg^Hukr
-z9odimyL_{kh>0lb{vrOYKiiL-%RHTdS(t|fScD~5fmO($1skvlIe5pqum}5a1SfC`
-zXK)S|(1T03h8wtpd+-83LVwsbVBbt$d~<2DY4d3_YIAC{YV&F{YjbO}YxC>8vOQee
-tMcYT)N!v@?P1{e~QQK47Rre~}*|oj3-L?I--$45vwBJJa_1FELix01BseS+e
-
-diff --git a/geofence/geofence_db/geofence.data.db b/geofence/geofence_db/geofence.data.db
-index d98ff009f8d99a9cc106f0a5ad4cc4461b670ba3..d1cdd5ca8585e5abcadcea824b3f9a5d27f7a3af 100644
-GIT binary patch
-delta 73
-zcmdncz_9^{b}CG^axY<Gn7UbCk&7L|w%xp5ql*K?p1jsfc=G|nN*0L3-_7gIxa219
-SR48S9-mD+GT|bnOaWw$R>KZ`+
-
-delta 74
-zcmdncz_9^{b}CHX8B)r4YqP#07dx2Qw0XTo7YCTxzInZ27Ym3vd7Yuq<^yIwWhdMF
-V%1jRRiDYDH)(_pTAIiwM8UT=A9fSY?
-
-diff --git a/global.xml b/global.xml
-index 253886c..7aeef32 100644
---- a/global.xml
-+++ b/global.xml
+index e69de29..0000000
+diff --git a/geofence/geofence_db/geofence.51.log.db b/geofence/geofence_db/geofence.51.log.db
+deleted file mode 100644
+index 5fa3f1b..0000000
+Binary files a/geofence/geofence_db/geofence.51.log.db and /dev/null differ
+diff --git a/geofence/geofence_db/geofence.lock.db b/geofence/geofence_db/geofence.lock.db
+deleted file mode 100644
+index 96c8341..0000000
+--- a/geofence/geofence_db/geofence.lock.db
++++ /dev/null
+@@ -1,4 +0,0 @@
+-#FileLock
+-#Wed Oct 11 19:13:09 UTC 2017
+-id=15f0cdad6689cdc533fc1da61d838d23fdcdb75c89f
+-method=file
 @@ -20,14 +20,14 @@
    </settings>
    <jai>
@@ -209,9 +117,8 @@ index 8f88811..aa7b393 100644
    <level>PRODUCTION_LOGGING.properties</level>
    <location>logs/geoserver.log</location>
 -  <stdOutLogging>true</stdOutLogging>
--</logging>
 +  <stdOutLogging>false</stdOutLogging>
-+</logging>
+ </logging>
 \ No newline at end of file
 diff --git a/security/config.xml b/security/config.xml
 index e8be1a7..2ee52e0 100644
@@ -343,10 +250,8 @@ index d4f935f..db17b6f 100644
      <version>1.0.0</version>
    </languageVersion>
 -  <filename>default_generic.sld</filename>
--</style>
-\ No newline at end of file
 +  <filename>generic.sld</filename>
-+</style>
+ </style>
 diff --git a/styles/raster.sld b/styles/raster.sld
 index f25ecb8..dddd736 100644
 --- a/styles/raster.sld
@@ -481,6 +386,3 @@ index a6df947..5c03d50 100644
 +  <maxAsynchronousTotalTime>1200</maxAsynchronousTotalTime>
  </wps>
 \ No newline at end of file
---
-2.14.2
-
