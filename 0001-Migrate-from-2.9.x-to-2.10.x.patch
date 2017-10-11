@@ -9,7 +9,6 @@ Subject: [PATCH] Migrate from 2.9.x to 2.10.x
  demo/WFS_getFeatureBetweenCQL.url                 |   2 +-
  demo/WFS_getFeatureFid.url                        |   2 +-
  demo/WFS_getFeatureFidFilter.url                  |   2 +-
- demo/WFS_getFeatureIntersects.url                 |   4 +--
  demo/WFS_getFeatureMultiFilter.url                |   2 +-
  geofence/geofence-server.properties               |   8 ++---
  geofence/geofence_db/geofence.48.log.db           | Bin 1088 -> 0 bytes
@@ -71,15 +70,6 @@ index 087061f..9b491ba 100644
 @@ -1 +1 @@
 -wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.23%22/%3E%3C/Filter%3E
 +wfs?request=GetFeature&version=1.1.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%3E%3CFeatureId%20fid=%22states.23%22/%3E%3C/Filter%3E
-diff --git a/demo/WFS_getFeatureIntersects.url b/demo/WFS_getFeatureIntersects.url
-index 3dbd459..5c9f627 100644
---- a/demo/WFS_getFeatureIntersects.url
-+++ b/demo/WFS_getFeatureIntersects.url
-@@ -1,2 +1,2 @@
--wfs?request=GetFeature&version=1.0.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Ethe_geom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
--
-+wfs?request=GetFeature&version=1.0.0&typeName=topp:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Ethe_geom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
-+
 diff --git a/demo/WFS_getFeatureMultiFilter.url b/demo/WFS_getFeatureMultiFilter.url
 index 9f92eaa..0413779 100644
 --- a/demo/WFS_getFeatureMultiFilter.url
