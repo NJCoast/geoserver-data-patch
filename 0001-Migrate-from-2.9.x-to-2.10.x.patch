@@ -19,23 +19,10 @@ index 0c34409..65b3a5b 100644
 +cacheSize=500000
 +cacheRefresh=6000000
 +cacheExpire=6000000
-diff --git a/geofence/geofence_db/.nfs0000000000000df800000001 b/geofence/geofence_db/.nfs0000000000000df800000001
-deleted file mode 100644
-index e69de29..0000000
-diff --git a/geofence/geofence_db/geofence.51.log.db b/geofence/geofence_db/geofence.51.log.db
-deleted file mode 100644
-index 5fa3f1b..0000000
-Binary files a/geofence/geofence_db/geofence.51.log.db and /dev/null differ
-diff --git a/geofence/geofence_db/geofence.lock.db b/geofence/geofence_db/geofence.lock.db
-deleted file mode 100644
-index 96c8341..0000000
---- a/geofence/geofence_db/geofence.lock.db
-+++ /dev/null
-@@ -1,4 +0,0 @@
--#FileLock
--#Wed Oct 11 19:13:09 UTC 2017
--id=15f0cdad6689cdc533fc1da61d838d23fdcdb75c89f
--method=file
+diff --git a/global.xml b/global.xml
+index b502b47..7aeef32 100644
+--- a/global.xml
++++ b/global.xml
 @@ -20,14 +20,14 @@
    </settings>
    <jai>
