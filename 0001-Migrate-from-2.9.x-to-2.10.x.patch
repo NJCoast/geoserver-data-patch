@@ -14,8 +14,6 @@ Subject: [PATCH] Migrate from 2.9.x to 2.10.x
  geofence/geofence-server.properties               |   8 ++---
  geofence/geofence_db/geofence.48.log.db           | Bin 1088 -> 0 bytes
  geofence/geofence_db/geofence.data.db             | Bin 131120 -> 131120 bytes
- geofence/geofence_db/geofence.lock.db             |   4 ---
- geofence/geofence_db/geofence.trace.db            |   0
  global.xml                                        |  19 ++++++------
  gwc-gs.xml                                        |   6 +++-
  logging.xml                                       |   4 +--
@@ -35,8 +33,6 @@ Subject: [PATCH] Migrate from 2.9.x to 2.10.x
  wps.xml                                           |  16 ++++++----
  30 files changed, 106 insertions(+), 70 deletions(-)
  delete mode 100644 geofence/geofence_db/geofence.48.log.db
- delete mode 100644 geofence/geofence_db/geofence.lock.db
- delete mode 100644 geofence/geofence_db/geofence.trace.db
  delete mode 100644 security/filter/geonodeAnonymousFilter/config.xml
  delete mode 100644 security/filter/geonodeCookieFilter/config.xml
 
@@ -138,19 +134,6 @@ delta 74
 zcmdncz_9^{b}CHX8B)r4YqP#07dx2Qw0XTo7YCTxzInZ27Ym3vd7Yuq<^yIwWhdMF
 V%1jRRiDYDH)(_pTAIiwM8UT=A9fSY?
 
-diff --git a/geofence/geofence_db/geofence.lock.db b/geofence/geofence_db/geofence.lock.db
-deleted file mode 100644
-index 380023d..0000000
---- a/geofence/geofence_db/geofence.lock.db
-+++ /dev/null
-@@ -1,4 +0,0 @@
--#FileLock
--#Mon Dec 05 13:05:05 CET 2016
--id=158cedf85fe68d3d2b10716e9d1f9a70d7b5ba1e763
--method=file
-diff --git a/geofence/geofence_db/geofence.trace.db b/geofence/geofence_db/geofence.trace.db
-deleted file mode 100644
-index e69de29..0000000
 diff --git a/global.xml b/global.xml
 index 253886c..7aeef32 100644
 --- a/global.xml
