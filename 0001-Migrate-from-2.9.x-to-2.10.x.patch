@@ -45,7 +45,7 @@ index b502b47..7aeef32 100644
      <queueType>UNBOUNDED</queueType>
      <imageIOCacheThreshold>10240</imageIOCacheThreshold>
    </coverageAccess>
--  <updateSequence>147</updateSequence>
+-  <updateSequence>154</updateSequence>
 -  <featureTypeCacheSize>0</featureTypeCacheSize>
 -  <globalServices>true</globalServices>
 -  <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
